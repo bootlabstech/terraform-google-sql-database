@@ -50,12 +50,12 @@ variable "disk_size" {
 
 variable "disk_autoresize" {
   description = "Configuration to increase storage size automatically"
-  type        = string
+  type        = bool
 }
 
 variable "backup_enabled" {
   description = "True if backup configuration is enabled"
-  type        = string
+  type        = bool
 }
 
 variable "backup_start_time" {
@@ -74,7 +74,7 @@ variable "database_flags" {
 variable "insights_config" {
   description = "The id of the vpc"
   type = list(object({
-      query_insights_enabled = string
+      query_insights_enabled = bool
       query_string_length = number
       record_application_tags = string
       record_client_address = bool
