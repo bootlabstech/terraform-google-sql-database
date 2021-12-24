@@ -23,11 +23,6 @@ variable "region" {
   type        = string
 }
 
-variable "network_id" {
-  description = "The id of the vpc"
-  type        = string
-}
-
 variable "deletion_protection" {
   description = "Whether or not to allow Terraform to destroy the instance"
   type        = bool
