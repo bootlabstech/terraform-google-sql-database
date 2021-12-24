@@ -84,3 +84,8 @@ variable "maintenance_window" {
       maintenance_window_update_track = string
   }))
 }
+
+variable "shared_vpc_project" {
+  description = "Shared VPC project"
+  type        = string
+}
