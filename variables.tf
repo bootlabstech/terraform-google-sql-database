@@ -76,7 +76,7 @@ variable "insights_config" {
   type = list(object({
       query_insights_enabled = bool
       query_string_length = number
-      record_application_tags = string
+      record_application_tags = bool 
       record_client_address = bool
   }))
 }
