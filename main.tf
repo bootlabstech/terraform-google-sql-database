@@ -84,10 +84,6 @@ resource "google_sql_database_instance" "instance" {
       }
     }
   }
-  
-  lifecycle {
-    ignore_changes = [settings[0].replication_type]
-  }
 
   depends_on = [
     google_service_networking_connection.private_vpc_connection
