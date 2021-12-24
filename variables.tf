@@ -89,3 +89,8 @@ variable "shared_vpc_project" {
   description = "Shared VPC project"
   type        = string
 }
+
+variable "project" {
+  description = "The project where the database lives"
+  type        = string
+}

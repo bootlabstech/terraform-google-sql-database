@@ -40,6 +40,7 @@ resource "google_sql_database_instance" "instance" {
   name             = "${var.instance_name}-${random_string.sql_server_suffix.id}"
   database_version = var.database_version
   region           = var.region
+  project       = var.project
   deletion_protection  = var.deletion_protection
 
   settings {
