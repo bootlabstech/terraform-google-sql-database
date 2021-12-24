@@ -36,7 +36,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 }
 
 resource "google_sql_database_instance" "instance" {
-  name             = "${var.instance_name}-${random_string.mysql_server_suffix.id}"
+  name             = "${var.instance_name}-${random_string.sql_server_suffix.id}"
   database_version = var.database_version
   region           = var.region
   deletion_protection  = var.deletion_protection
