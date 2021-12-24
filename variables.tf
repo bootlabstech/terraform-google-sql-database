@@ -30,7 +30,7 @@ variable "network_id" {
 
 variable "deletion_protection" {
   description = "Whether or not to allow Terraform to destroy the instance"
-  type        = string
+  type        = bool
 }
 
 variable "tier" {
