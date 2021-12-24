@@ -87,5 +87,5 @@ variable "maintenance_window" {
 
 variable "user_labels" {
   description = "A set of key/value user label pairs to assign to the instance"
-  type        = list(string)
+  type        = "map"
 }
