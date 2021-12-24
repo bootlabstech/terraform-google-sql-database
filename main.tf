@@ -83,8 +83,6 @@ resource "google_sql_database_instance" "instance" {
         update_track = maintenance_window.value.maintenance_window_update_track
       }
     }
-
-    user_labels = var.user_labels
   }
   
   lifecycle {

@@ -84,8 +84,3 @@ variable "maintenance_window" {
       maintenance_window_update_track = string
   }))
 }
-
-variable "user_labels" {
-  description = "A set of key/value user label pairs to assign to the instance"
-  type        = "map"
-}
