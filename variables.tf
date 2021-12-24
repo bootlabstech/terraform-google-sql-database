@@ -53,6 +53,11 @@ variable "backup_enabled" {
   type        = bool
 }
 
+variable "binary_log_enabled" {
+  description = "True if backup configuration is enabled"
+  type        = bool
+}
+
 variable "backup_start_time" {
   description = "HH:MM format time indicating when backup configuration starts"
   type        = string
