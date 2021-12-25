@@ -104,3 +104,8 @@ variable "private_ip_address_name" {
   description = "The name of the static private ip for the database"
   type        = string
 }
+
+variable "mssql_root_password" {
+  description = "Initial root password. Required for MS SQL Server, ignored by MySQL and PostgreSQL"
+  type        = string
+}
