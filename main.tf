@@ -43,7 +43,7 @@ resource "google_sql_database_instance" "instance" {
   region           = var.region
   project       = var.project
   deletion_protection  = var.deletion_protection
-  root_password    = var.mssql_root_password
+  root_password    = random_password.sql_password.result
 
   settings {
     tier              = var.tier
