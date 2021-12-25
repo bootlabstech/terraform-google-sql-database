@@ -23,7 +23,7 @@ resource "google_sql_user" "users" {
 }
 
 resource "google_compute_global_address" "private_ip_address" {
-  name          = "private-ip-address"
+  name          = var.private_ip_address_name
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   project       = var.shared_vpc_project

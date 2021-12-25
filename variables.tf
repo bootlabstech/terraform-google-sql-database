@@ -99,3 +99,8 @@ variable "project" {
   description = "The project where the database lives"
   type        = string
 }
+
+variable "private_ip_address_name" {
+  description = "The name of the static private ip for the database"
+  type        = string
+}
