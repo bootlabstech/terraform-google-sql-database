@@ -66,36 +66,36 @@ variable "backup_start_time" {
 variable "database_flags" {
   description = "The id of the vpc"
   type = list(object({
-      name = string
-      value = string
+    name  = string
+    value = string
   }))
 }
 
 variable "insights_config" {
   description = "The id of the vpc"
   type = list(object({
-      query_insights_enabled = bool
-      query_string_length = number
-      record_application_tags = bool 
-      record_client_address = bool
+    query_insights_enabled  = bool
+    query_string_length     = number
+    record_application_tags = bool
+    record_client_address   = bool
   }))
 }
 
 variable "maintenance_window" {
   description = "Subblock for instances declares a one-hour maintenance window when an Instance can automatically restart to apply updates"
   type = list(object({
-      maintenance_window_day = number
-      maintenance_window_hour = number
-      maintenance_window_update_track = string
+    maintenance_window_day          = number
+    maintenance_window_hour         = number
+    maintenance_window_update_track = string
   }))
 }
 
-variable "shared_vpc_project" {
+variable "shared_vpc_project_id" {
   description = "Shared VPC project"
   type        = string
 }
 
-variable "project" {
+variable "project_id" {
   description = "The project where the database lives"
   type        = string
 }
