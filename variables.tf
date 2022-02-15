@@ -14,28 +14,107 @@ variable "instance_name" {
 }
 
 variable "database_version" {
-  description = "The MySQL, PostgreSQL or SQL Server version to use. Supported values include MYSQL_5_6, MYSQL_5_7, MYSQL_8_0, POSTGRES_9_6,POSTGRES_10, POSTGRES_11, POSTGRES_12, POSTGRES_13, SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB. SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS, SQLSERVER_2019_WEB"
   type        = string
+  description = <<-EOT
+  {
+   "type": "json",
+   "purpose": "autocomplete",
+   "data": [ "MYSQL_5_6",
+        "MYSQL_5_7",
+        "MYSQL_8_0",
+        "POSTGRES_9_6",
+        "POSTGRES_10",
+        "POSTGRES_11", 
+        "POSTGRES_12",
+        "POSTGRES_13", 
+        "SQLSERVER_2017_STANDARD",
+        "SQLSERVER_2017_ENTERPRISE",
+        "SQLSERVER_2017_EXPRESS", 
+        "SQLSERVER_2017_WEB",
+        "SQLSERVER_2019_STANDARD",
+        "SQLSERVER_2019_ENTERPRISE",
+        "SQLSERVER_2019_EXPRESS",
+        "SQLSERVER_2019_WEB"
+               ],
+   "description": "The MySQL, PostgreSQL or SQL Server version to use."
 }
-
+EOT
+}
+    
 variable "region" {
-  description = "The region the instance will sit in"
   type        = string
+  description = <<-EOT
+  {
+   "type": "json",
+   "purpose": "autocomplete",
+   "data": [ "asia-east1",
+             "asia-east2",
+             "asia-northeast1",
+             "asia-northeast2",
+            "asia-northeast3",
+            "asia-south1",
+            "asia-south2",
+            "asia-southeast1",
+            "asia-southeast2",
+            "australia-southeast1",
+            "australia-southeast2",
+            "europe-central2",
+            "europe-north1",
+            "europe-west1",
+            "europe-west2",
+            "europe-west3",
+            "europe-west4",
+            "europe-west6",
+            "northamerica-northeast1",
+            "northamerica-northeast2",
+            "southamerica-east1",
+            "southamerica-west1",
+            "us-central1",
+            "us-east1",
+            "us-east4",
+            "us-west1",
+            "us-west2",
+            "us-west3",
+            "us-west4"      
+               ],
+   "description": "The region the instance will be created at"
+}
+EOT
 }
 
 variable "deletion_protection" {
-  description = "Whether or not to allow Terraform to destroy the instance"
   type        = bool
+  description = <<-EOT
+  {
+   "type": "json",
+   "purpose": "autocomplete",
+   "data": [
+  "true",
+  "false"
+   ],
+   "default":true
+   "description": "it determines if the DB server is protected against deletion through Terraform."
 }
-
+EOT
+}
 variable "tier" {
-  description = "The machine type to use"
   type        = string
+  description = "The machine type to use"
+  
 }
 
 variable "availability_type" {
-  description = "The availability type of the Cloud SQL instance, high availability (REGIONAL) or single zone (ZONAL)"
   type        = string
+  description = <<-EOT
+  {
+   "type": "json",
+   "purpose": "autocomplete",
+   "data": [  "REGIONAL",
+              "ZONAL"
+   ],
+   "description": "The availability type of the Cloud SQL instance"
+}
+EOT
 }
 
 variable "disk_size" {
@@ -44,18 +123,45 @@ variable "disk_size" {
 }
 
 variable "disk_autoresize" {
-  description = "Configuration to increase storage size automatically"
   type        = bool
+  description = <<-EOT
+  {
+   "type": "json",
+   "purpose": "autocomplete",
+   "data": [  "true",
+              "false"
+   ],
+   "description": "Configuration to increase storage size automatically"
+}
+EOT
 }
 
 variable "backup_enabled" {
-  description = "True if backup configuration is enabled"
   type        = bool
+  description = <<-EOT
+  {
+   "type": "json",
+   "purpose": "autocomplete",
+   "data": [  "true",
+              "false"
+   ],
+   "description": "True if backup configuration is enabled"
+}
+EOT
 }
 
 variable "binary_log_enabled" {
-  description = "True if backup configuration is enabled"
   type        = bool
+  description = <<-EOT
+  {
+   "type": "json",
+   "purpose": "autocomplete",
+   "data": [  "true",
+              "false"
+   ],
+   "description": "True if binary_log is enabled"
+}
+EOT
 }
 
 variable "backup_start_time" {
