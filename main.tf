@@ -36,7 +36,7 @@ resource "google_compute_address" "private_ip_address" {
   count = "${var.create_peering_range && var.subnetwork_id != "" ? 1 : 0}"
   name          = var.private_ip_address_name
   prefix_length = 16
-  project       = var.shared_vpc_project
+  project       = var.shared_vpc_project_id
   subnetwork    = var.subnetwork_id
   address_type  = "INTERNAL"
   purpose       = "VPC_PEERING"
@@ -46,7 +46,7 @@ resource "google_compute_address" "private_ip_address" {
   count = "${var.create_peering_range && var.subnetwork_id == "" ? 1 : 0}"
   name          = var.private_ip_address_name
   prefix_length = 16
-  project       = var.shared_vpc_project
+  project       = var.shared_vpc_project_id
   network       = var.network_id
   address_type  = "INTERNAL"
   purpose       = "VPC_PEERING"
