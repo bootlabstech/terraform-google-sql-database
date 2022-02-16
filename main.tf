@@ -17,7 +17,7 @@ resource "random_password" "sql_password" {
 
 resource "google_sql_user" "users" {
   name     = var.db_root_username
-  project       = var.project
+  project  = var.project_id
   instance = google_sql_database_instance.instance.name
   password = random_password.sql_password.result
 }
@@ -67,12 +67,13 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 }
 
 resource "google_sql_database_instance" "instance" {
-  name             = "${var.instance_name}-${random_string.sql_server_suffix.id}"
-  database_version = var.database_version
-  region           = var.region
-  project       = var.project
-  deletion_protection  = var.deletion_protection
-  root_password    = random_password.sql_password.result
+  #ts:skip=AC_GCP_0003 DB SSL needs application level changes
+  name                = "${var.instance_name}-${random_string.sql_server_suffix.id}"
+  database_version    = var.database_version
+  region              = var.region
+  project             = var.project_id
+  deletion_protection = var.deletion_protection
+  root_password       = random_password.sql_password.result
 
   settings {
     tier              = var.tier
@@ -81,8 +82,8 @@ resource "google_sql_database_instance" "instance" {
     disk_autoresize   = var.disk_autoresize
 
     backup_configuration {
-      enabled    = var.backup_enabled
-      start_time = var.backup_start_time
+      enabled            = var.backup_enabled
+      start_time         = var.backup_start_time
       binary_log_enabled = var.binary_log_enabled
     }
 
@@ -92,7 +93,7 @@ resource "google_sql_database_instance" "instance" {
     }
 
     dynamic "database_flags" {
-      for_each  = var.database_flags
+      for_each = var.database_flags
       content {
         name  = database_flags.value.name
         value = database_flags.value.value
