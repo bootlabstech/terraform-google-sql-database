@@ -104,3 +104,20 @@ variable "private_ip_address_name" {
   description = "The name of the static private ip for the database"
   type        = string
 }
+
+variable "reserved_peering_ranges" {
+  description = "test"
+  type = list(string)
+}
+
+variable "create_peering_range" {
+  description = "test"
+  type = bool
+  default = false
+}
+
+variable "subnetwork_id" {
+  description = "The id of the vpc"
+  type        = string
+  default     = ""
+}

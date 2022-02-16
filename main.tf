@@ -22,19 +22,48 @@ resource "google_sql_user" "users" {
   password = random_password.sql_password.result
 }
 
-resource "google_compute_global_address" "private_ip_address" {
+# resource "google_compute_global_address" "private_ip_address" {
+  
+#   name          = var.private_ip_address_name
+#   purpose       = "VPC_PEERING"
+#   address_type  = "INTERNAL"
+#   project       = var.shared_vpc_project
+#   prefix_length = 16
+#   network       = var.network_id
+# }
+
+resource "google_compute_address" "private_ip_address" {
+  count = "${var.create_peering_range && var.subnetwork_id != "" ? 1 : 0}"
   name          = var.private_ip_address_name
-  purpose       = "VPC_PEERING"
-  address_type  = "INTERNAL"
-  project       = var.shared_vpc_project
   prefix_length = 16
+  project       = var.shared_vpc_project
+  subnetwork    = var.subnetwork_id
+  address_type  = "INTERNAL"
+  purpose       = "VPC_PEERING"
+}
+
+resource "google_compute_address" "private_ip_address" {
+  count = "${var.create_peering_range && var.subnetwork_id == "" ? 1 : 0}"
+  name          = var.private_ip_address_name
+  prefix_length = 16
+  project       = var.shared_vpc_project
   network       = var.network_id
+  address_type  = "INTERNAL"
+  purpose       = "VPC_PEERING"
 }
 
 resource "google_service_networking_connection" "private_vpc_connection" {
+  count = "${var.create_peering_range ? 1 : 0}"
   network                 = var.network_id
   service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
+  reserved_peering_ranges = [google_compute_address.private_ip_address.name]
+}
+
+resource "google_service_networking_connection" "private_vpc_connection" {
+  count = "${!var.create_peering_range ? 1 : 0}"
+  network                 = var.network_id
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = var.reserved_peering_ranges
 }
 
 resource "google_sql_database_instance" "instance" {
@@ -94,4 +123,28 @@ resource "google_sql_database_instance" "instance" {
     google_service_networking_connection.private_vpc_connection
   ]
 
+}
+
+resource "google_dns_managed_zone" "private_zone" {
+  count = "${var.create_dns_zone != null ? 1 : 0}"
+  name        = "mysql-private-zone"
+  dns_name    = "private.mysql.com"
+  description = "Internal DNS zone"
+
+  visibility = "private"
+
+  private_visibility_config {
+    networks {
+      network_url = var.network_id
+    }
+  }
+}
+
+resource "google_dns_record_set" "db_dns" {
+  depends_on = [google_dns_managed_zone.private_zone]
+  managed_zone = google_dns_managed_zone.private_zone.name
+  name = "db.${google_dns_managed_zone.private_zone.dns_name}"
+  rrdatas = [google_sql_database_instance.instance.private_ip_address]
+  ttl = 300
+  type = "A"
 }
