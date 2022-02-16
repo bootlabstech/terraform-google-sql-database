@@ -106,18 +106,6 @@ variable "private_ip_address_name" {
 }
 
 variable "reserved_peering_ranges" {
-  description = "test"
+  description = "List of peering ranges"
   type = list(string)
-}
-
-variable "create_peering_range" {
-  description = "test"
-  type = bool
-  default = false
-}
-
-variable "subnetwork_id" {
-  description = "The id of the vpc"
-  type        = string
-  default     = ""
 }

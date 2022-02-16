@@ -32,35 +32,24 @@ resource "google_sql_user" "users" {
 #   network       = var.network_id
 # }
 
-resource "google_compute_address" "private_ip_address" {
-  count = "${var.create_peering_range && var.subnetwork_id != "" ? 1 : 0}"
-  name          = var.private_ip_address_name
-  prefix_length = 16
-  project       = var.shared_vpc_project_id
-  subnetwork    = var.subnetwork_id
-  address_type  = "INTERNAL"
-  purpose       = "VPC_PEERING"
-}
+# resource "google_compute_address" "private_ip_address" {
+#   count = "${var.create_peering_range && var.subnetwork_id != "" ? 1 : 0}"
+#   name          = var.private_ip_address_name
+#   prefix_length = 16
+#   project       = var.shared_vpc_project_id
+#   subnetwork    = var.subnetwork_id
+#   address_type  = "INTERNAL"
+#   purpose       = "VPC_PEERING"
+# }
 
-resource "google_compute_address" "private_ip_address" {
-  count = "${var.create_peering_range && var.subnetwork_id == "" ? 1 : 0}"
-  name          = var.private_ip_address_name
-  prefix_length = 16
-  project       = var.shared_vpc_project_id
-  network       = var.network_id
-  address_type  = "INTERNAL"
-  purpose       = "VPC_PEERING"
-}
+# resource "google_service_networking_connection" "private_vpc_connection" {
+#   count = "${var.create_peering_range ? 1 : 0}"
+#   network                 = var.network_id
+#   service                 = "servicenetworking.googleapis.com"
+#   reserved_peering_ranges = [google_compute_address.private_ip_address.name]
+# }
 
 resource "google_service_networking_connection" "private_vpc_connection" {
-  count = "${var.create_peering_range ? 1 : 0}"
-  network                 = var.network_id
-  service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = [google_compute_address.private_ip_address.name]
-}
-
-resource "google_service_networking_connection" "private_vpc_connection" {
-  count = "${!var.create_peering_range ? 1 : 0}"
   network                 = var.network_id
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = var.reserved_peering_ranges
