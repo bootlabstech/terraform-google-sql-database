@@ -216,4 +216,7 @@ variable "reserved_peering_ranges" {
   description = "List of peering ranges"
   type        = list(string)
 }
-
+variable "tags" {
+  type        = list(string)
+  description = "this will be used for tagging resources."
+}
