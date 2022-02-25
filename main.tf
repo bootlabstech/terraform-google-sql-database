@@ -53,6 +53,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   network                 = var.network_id
   service                 = "servicenetworking.googleapis.com"
   reserved_peering_ranges = var.reserved_peering_ranges
+  tags                    = var.tags
 }
 
 resource "google_sql_database_instance" "instance" {
@@ -63,6 +64,7 @@ resource "google_sql_database_instance" "instance" {
   project             = var.project_id
   deletion_protection = var.deletion_protection
   root_password       = random_password.sql_password.result
+  tags                = var.tags 
 
   settings {
     tier              = var.tier
