@@ -58,6 +58,12 @@ variable "binary_log_enabled" {
   type        = bool
 }
 
+variable "ipv4_enabled" {
+  description = "True if backup configuration is enabled"
+  type        = bool
+  default     = false
+}
+
 variable "backup_start_time" {
   description = "HH:MM format time indicating when backup configuration starts"
   type        = string
@@ -107,5 +113,5 @@ variable "private_ip_address_name" {
 
 variable "reserved_peering_ranges" {
   description = "List of peering ranges"
-  type = list(string)
+  type        = list(string)
 }

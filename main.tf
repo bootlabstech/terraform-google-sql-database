@@ -23,7 +23,7 @@ resource "google_sql_user" "users" {
 }
 
 # resource "google_compute_global_address" "private_ip_address" {
-  
+
 #   name          = var.private_ip_address_name
 #   purpose       = "VPC_PEERING"
 #   address_type  = "INTERNAL"
@@ -77,7 +77,7 @@ resource "google_sql_database_instance" "instance" {
     }
 
     ip_configuration {
-      ipv4_enabled    = "true"
+      ipv4_enabled    = var.ipv4_enabled
       private_network = var.network_id
     }
 
