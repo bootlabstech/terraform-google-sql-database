@@ -63,6 +63,7 @@ resource "google_sql_database_instance" "instance" {
   project             = var.project_id
   deletion_protection = var.deletion_protection
   root_password       = random_password.sql_password.result
+  encryption_key_name = var.encryption_key_name == "" ? null : var.encryption_key_name
 
   settings {
     tier              = var.tier
@@ -110,11 +111,14 @@ resource "google_sql_database_instance" "instance" {
   }
 
   depends_on = [
-    google_service_networking_connection.private_vpc_connection
+    google_service_networking_connection.private_vpc_connection,
+    google_project_service_identity.sa
   ]
 
 }
 
+//Create this in the first run, allow google_sql_database_instance to fail. 
+//Then add iam binding for this SA in keyring rerun this module again.
 resource "google_project_service_identity" "sa" {
   provider = google-beta
 

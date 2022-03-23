@@ -115,3 +115,9 @@ variable "reserved_peering_ranges" {
   description = "List of peering ranges"
   type        = list(string)
 }
+
+variable "encryption_key_name" {
+  type        = string
+  description = "the Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool"
+  default     = ""
+}
