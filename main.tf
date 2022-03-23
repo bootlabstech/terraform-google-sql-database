@@ -115,26 +115,9 @@ resource "google_sql_database_instance" "instance" {
 
 }
 
-# resource "google_dns_managed_zone" "private_zone" {
-#   count = "${var.create_dns_zone != null ? 1 : 0}"
-#   name        = "mysql-private-zone"
-#   dns_name    = "private.mysql.com"
-#   description = "Internal DNS zone"
+resource "google_project_service_identity" "sa" {
+  provider = google-beta
 
-#   visibility = "private"
-
-#   private_visibility_config {
-#     networks {
-#       network_url = var.network_id
-#     }
-#   }
-# }
-
-# resource "google_dns_record_set" "db_dns" {
-#   depends_on = [google_dns_managed_zone.private_zone]
-#   managed_zone = google_dns_managed_zone.private_zone.name
-#   name = "db.${google_dns_managed_zone.private_zone.dns_name}"
-#   rrdatas = [google_sql_database_instance.instance.private_ip_address]
-#   ttl = 300
-#   type = "A"
-# }
+  project = var.project_id
+  service = "sqladmin.googleapis.com"
+}
