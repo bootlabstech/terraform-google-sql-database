@@ -57,6 +57,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
 
 resource "google_sql_database_instance" "instance" {
   #ts:skip=AC_GCP_0003 DB SSL needs application level changes
+  provider            = google-beta
   name                = "${var.instance_name}-${random_string.sql_server_suffix.id}"
   database_version    = var.database_version
   region              = var.region
