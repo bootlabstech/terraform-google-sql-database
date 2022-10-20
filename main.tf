@@ -49,11 +49,11 @@ resource "google_sql_user" "users" {
 #   reserved_peering_ranges = [google_compute_address.private_ip_address.name]
 # }
 
-resource "google_service_networking_connection" "private_vpc_connection" {
-  network                 = var.network_id
-  service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = var.reserved_peering_ranges
-}
+# resource "google_service_networking_connection" "private_vpc_connection" {
+#   network                 = var.network_id
+#   service                 = "servicenetworking.googleapis.com"
+#   reserved_peering_ranges = var.reserved_peering_ranges
+# }
 
 resource "google_sql_database_instance" "instance" {
   #ts:skip=AC_GCP_0003 DB SSL needs application level changes
@@ -112,7 +112,7 @@ resource "google_sql_database_instance" "instance" {
   }
 
   depends_on = [
-    google_service_networking_connection.private_vpc_connection,
+    #google_service_networking_connection.private_vpc_connection,
     google_project_service_identity.sa
   ]
 

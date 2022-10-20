@@ -111,10 +111,10 @@ variable "private_ip_address_name" {
   type        = string
 }
 
-variable "reserved_peering_ranges" {
-  description = "List of peering ranges"
-  type        = list(string)
-}
+# variable "reserved_peering_ranges" {
+#   description = "List of peering ranges"
+#   type        = list(string)
+# }
 
 variable "encryption_key_name" {
   type        = string
