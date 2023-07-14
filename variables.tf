@@ -3,10 +3,10 @@ variable "db_root_username" {
   description = "The root username for the database instance"
 }
 
-variable "network_id" {
-  description = "The id of the vpc"
-  type        = string
-}
+# variable "network_id" {
+#   description = "The id of the vpc"
+#   type        = string
+# }
 
 variable "instance_name" {
   description = "The name of the database instance"
@@ -111,10 +111,18 @@ variable "private_ip_address_name" {
   type        = string
 }
 
-# variable "reserved_peering_ranges" {
-#   description = "List of peering ranges"
-#   type        = list(string)
-# }
+variable "reserved_peering_ranges" {
+  description = "List of peering ranges"
+  type        = string
+}
+variable "authorized_network" {
+  description = "authorized_network"
+  type        = string
+}
+variable "host_project_id" {
+  description = "host_project_id"
+  type        = string
+}
 
 variable "encryption_key_name" {
   type        = string

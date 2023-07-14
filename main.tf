@@ -21,39 +21,10 @@ resource "google_sql_user" "users" {
   instance = google_sql_database_instance.instance.name
   password = random_password.sql_password.result
 }
-
-# resource "google_compute_global_address" "private_ip_address" {
-
-#   name          = var.private_ip_address_name
-#   purpose       = "VPC_PEERING"
-#   address_type  = "INTERNAL"
-#   project       = var.shared_vpc_project
-#   prefix_length = 16
-#   network       = var.network_id
-# }
-
-# resource "google_compute_address" "private_ip_address" {
-#   count = "${var.create_peering_range && var.subnetwork_id != "" ? 1 : 0}"
-#   name          = var.private_ip_address_name
-#   prefix_length = 16
-#   project       = var.shared_vpc_project_id
-#   subnetwork    = var.subnetwork_id
-#   address_type  = "INTERNAL"
-#   purpose       = "VPC_PEERING"
-# }
-
-# resource "google_service_networking_connection" "private_vpc_connection" {
-#   count = "${var.create_peering_range ? 1 : 0}"
-#   network                 = var.network_id
-#   service                 = "servicenetworking.googleapis.com"
-#   reserved_peering_ranges = [google_compute_address.private_ip_address.name]
-# }
-
-# resource "google_service_networking_connection" "private_vpc_connection" {
-#   network                 = var.network_id
-#   service                 = "servicenetworking.googleapis.com"
-#   reserved_peering_ranges = var.reserved_peering_ranges
-# }
+data "google_compute_network" "sql-network" {
+  name    = var.authorized_network
+  project = var.host_project_id
+}
 
 resource "google_sql_database_instance" "instance" {
   #ts:skip=AC_GCP_0003 DB SSL needs application level changes
@@ -80,8 +51,10 @@ resource "google_sql_database_instance" "instance" {
 
     ip_configuration {
       ipv4_enabled    = var.ipv4_enabled
-      private_network = var.network_id
-    }
+      private_network = data.google_compute_network.sql-network.id
+      allocated_ip_range = var.reserved_peering_ranges
+      }
+  
 
     dynamic "database_flags" {
       for_each = var.database_flags
@@ -112,7 +85,6 @@ resource "google_sql_database_instance" "instance" {
   }
 
   depends_on = [
-    #google_service_networking_connection.private_vpc_connection,
     google_project_service_identity.sa
   ]
 
@@ -122,7 +94,6 @@ resource "google_sql_database_instance" "instance" {
 //Then add iam binding for this SA in keyring rerun this module again.
 resource "google_project_service_identity" "sa" {
   provider = google-beta
-
   project = var.project_id
   service = "sqladmin.googleapis.com"
 }
