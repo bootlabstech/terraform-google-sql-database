@@ -129,3 +129,8 @@ variable "encryption_key_name" {
   description = "the Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool"
   default     = ""
 }
+
+variable "time_zone" {
+  type = string
+  
+}
