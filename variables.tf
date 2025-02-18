@@ -132,4 +132,5 @@ variable "encryption_key_name" {
 
 variable "time_zone" {
   type = string
+  
 }
