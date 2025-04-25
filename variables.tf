@@ -129,3 +129,7 @@ variable "encryption_key_name" {
   description = "the Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool"
   default     = ""
 }
+variable "point_in_time_recovery_enabled" {
+  type = bool
+  default = false
+}

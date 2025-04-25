@@ -47,6 +47,8 @@ resource "google_sql_database_instance" "instance" {
       enabled            = var.backup_enabled
       start_time         = var.backup_start_time
       binary_log_enabled = var.binary_log_enabled
+      point_in_time_recovery_enabled = var.point_in_time_recovery_enabled
+
     }
 
     ip_configuration {
