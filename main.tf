@@ -89,6 +89,9 @@ resource "google_sql_database_instance" "instance" {
   depends_on = [
     google_project_service_identity.sa
   ]
+  lifecycle {
+    ignore_changes = [ settings ]
+  }
 
 }
 
