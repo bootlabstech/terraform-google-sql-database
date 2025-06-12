@@ -42,6 +42,7 @@ resource "google_sql_database_instance" "instance" {
     availability_type = var.availability_type
     disk_size         = var.disk_size
     disk_autoresize   = var.disk_autoresize
+    time_zone         = var.time_zone
 
     backup_configuration {
       enabled            = var.backup_enabled
