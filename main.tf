@@ -39,6 +39,7 @@ resource "google_sql_database_instance" "instance" {
 
   settings {
     tier              = var.tier
+    edition           = var.edition
     availability_type = var.availability_type
     disk_size         = var.disk_size
     disk_autoresize   = var.disk_autoresize
