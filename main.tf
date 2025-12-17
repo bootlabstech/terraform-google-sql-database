@@ -38,7 +38,7 @@ resource "google_sql_database_instance" "instance" {
   encryption_key_name = var.encryption_key_name == "" ? null : var.encryption_key_name
 
   settings {
-    tier              = var.tier
+    tier = var.tier
     # edition           = var.edition
     availability_type = var.availability_type
     disk_size         = var.disk_size
@@ -46,19 +46,19 @@ resource "google_sql_database_instance" "instance" {
     time_zone         = var.time_zone
 
     backup_configuration {
-      enabled            = var.backup_enabled
-      start_time         = var.backup_start_time
-      binary_log_enabled = var.binary_log_enabled
+      enabled                        = var.backup_enabled
+      start_time                     = var.backup_start_time
+      binary_log_enabled             = var.binary_log_enabled
       point_in_time_recovery_enabled = var.point_in_time_recovery_enabled
 
     }
 
     ip_configuration {
-      ipv4_enabled    = var.ipv4_enabled
-      private_network = data.google_compute_network.sql-network.id
+      ipv4_enabled       = var.ipv4_enabled
+      private_network    = data.google_compute_network.sql-network.id
       allocated_ip_range = var.reserved_peering_ranges
-      }
-  
+    }
+
 
     dynamic "database_flags" {
       for_each = var.database_flags
@@ -91,9 +91,9 @@ resource "google_sql_database_instance" "instance" {
   depends_on = [
     google_project_service_identity.sa
   ]
-  lifecycle {
-    ignore_changes = [ settings ]
-  }
+  # lifecycle {
+  #   ignore_changes = [ settings ]
+  # }
 
 }
 
@@ -101,6 +101,6 @@ resource "google_sql_database_instance" "instance" {
 //Then add iam binding for this SA in keyring rerun this module again.
 resource "google_project_service_identity" "sa" {
   provider = google-beta
-  project = var.project_id
-  service = "sqladmin.googleapis.com"
+  project  = var.project_id
+  service  = "sqladmin.googleapis.com"
 }

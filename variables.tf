@@ -134,10 +134,10 @@ variable "encryption_key_name" {
   default     = ""
 }
 variable "point_in_time_recovery_enabled" {
-  type = bool
+  type    = bool
   default = false
 }
 variable "time_zone" {
   type = string
-  
+
 }
