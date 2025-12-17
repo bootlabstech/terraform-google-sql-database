@@ -137,7 +137,7 @@ variable "point_in_time_recovery_enabled" {
   type    = bool
   default = false
 }
-variable "time_zone" {
-  type = string
+# variable "time_zone" {
+#   type = string
 
-}
+# }
