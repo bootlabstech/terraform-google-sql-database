@@ -86,11 +86,17 @@ resource "google_sql_database_instance" "instance" {
         update_track = maintenance_window.value.maintenance_window_update_track
       }
     }
+   
   }
 
   depends_on = [
     google_project_service_identity.sa
   ]
+  lifecycle {
+    ignore_changes = [
+      settings[0].activation_policy  
+    ]
+  }
 }
 
 //Create this in the first run, allow google_sql_database_instance to fail. 
