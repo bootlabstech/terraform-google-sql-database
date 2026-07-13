@@ -5,6 +5,11 @@ resource "random_string" "sql_server_suffix" {
   lower   = true
   number  = true
 }
+locals {
+  is_sql_server = substr(var.database_version, 0, 9) == "SQLSERVER"
+  is_mysql      = substr(var.database_version, 0, 5) == "MYSQL"
+  is_postgres   = substr(var.database_version, 0, 8) == "POSTGRES"
+}
 
 resource "random_password" "sql_password" {
   length           = 16
@@ -43,12 +48,11 @@ resource "google_sql_database_instance" "instance" {
     availability_type = var.availability_type
     disk_size         = var.disk_size
     disk_autoresize   = var.disk_autoresize
-   time_zone = startswith(var.database_version, "SQLSERVER") ? var.time_zone : null
-
+    time_zone = local.is_sql_server ? var.time_zone : null
     backup_configuration {
       enabled                        = var.backup_enabled
       start_time                     = var.backup_start_time
-      binary_log_enabled             = var.binary_log_enabled
+      binary_log_enabled             = local.is_mysql ? var.binary_log_enabled : null
       point_in_time_recovery_enabled = var.point_in_time_recovery_enabled
 
     }
@@ -99,8 +103,7 @@ resource "google_sql_database_instance" "instance" {
   }
 }
 
-//Create this in the first run, allow google_sql_database_instance to fail. 
-//Then add iam binding for this SA in keyring rerun this module again.
+
 resource "google_project_service_identity" "sa" {
   provider = google-beta
   project  = var.project_id
