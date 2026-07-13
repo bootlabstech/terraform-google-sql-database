@@ -94,7 +94,8 @@ resource "google_sql_database_instance" "instance" {
   }
 
   depends_on = [
-    google_project_service_identity.sa
+    google_project_service_identity.sa,
+    google_project_iam_binding.sql_kms_binding
   ]
   lifecycle {
     ignore_changes = [
@@ -108,4 +109,22 @@ resource "google_project_service_identity" "sa" {
   provider = google-beta
   project  = var.project_id
   service  = "sqladmin.googleapis.com"
+}
+
+data "google_project" "sql_project" {
+  project_id = var.project_id
+}
+
+resource "google_project_iam_binding" "sql_kms_binding" {
+  count   = var.encryption_key_name != "" ? 1 : 0
+  project = var.project_id
+
+  lifecycle {
+    ignore_changes = [members]
+  }
+
+  role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+  members = [
+    "serviceAccount:service-${data.google_project.sql_project.number}@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+  ]
 }
