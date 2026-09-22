@@ -128,16 +128,12 @@ variable "host_project_id" {
   type        = string
 }
 
-variable "encryption_key_name" {
-  type        = string
-  description = "the Customer Managed Encryption Key used to encrypt the boot disk attached to each node in the node pool"
-  default     = ""
-}
 variable "point_in_time_recovery_enabled" {
   type    = bool
   default = false
 }
 variable "time_zone" {
   type = string
+  description = "time zone for db"
 
 }
