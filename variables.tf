@@ -135,5 +135,10 @@ variable "point_in_time_recovery_enabled" {
 variable "time_zone" {
   type = string
   description = "time zone for db"
+}
 
+variable "edition" {
+  description = "Cloud SQL edition for PostgreSQL"
+  type        = string
+  default     = "ENTERPRISE"
 }
