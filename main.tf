@@ -162,23 +162,23 @@ data "google_compute_network" "sql_network" {
 # Cloud SQL Service Agent -> KMS Encrypt/Decrypt
 # =========================================================
 
-resource "google_kms_crypto_key_iam_member" "sql_cmek" {
-  crypto_key_id = data.google_kms_crypto_key.project_key.id
+# resource "google_kms_crypto_key_iam_member" "sql_cmek" {
+#   crypto_key_id = data.google_kms_key_ring.project_keyring.id
 
-  role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+#   role = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
 
-  member = google_project_service_identity.sqladmin.member
+#   member = google_project_service_identity.sqladmin.member
 
-  depends_on = [
-    time_sleep.wait_for_service_identities
-  ]
+#   depends_on = [
+#     time_sleep.wait_for_service_identities
+#   ]
 
-  lifecycle {
-    ignore_changes = [
-      member
-    ]
-  }
-}
+#   lifecycle {
+#     ignore_changes = [
+#       member
+#     ]
+#   }
+# }
 
 # =========================================================
 # Cloud SQL Instance
@@ -204,7 +204,7 @@ resource "google_sql_database_instance" "instance" {
     availability_type = var.availability_type
     disk_size         = var.disk_size
     disk_autoresize   = var.disk_autoresize
-    edition           = local.is_postgres ? var.edition : null
+    edition           = var.edition
 
     time_zone = local.is_sql_server ? var.time_zone : null
 
@@ -253,7 +253,6 @@ resource "google_sql_database_instance" "instance" {
   }
 
   depends_on = [
-    google_kms_crypto_key_iam_member.sql_cmek,
     google_project_iam_member.service_networking_service_agent,
     google_project_iam_member.compute_network_user
   ]
